@@ -2,7 +2,8 @@
 const express = require('express')
 const routes = express.Router()
 const {createUser , logInUser } = require('../Controllers/UserController')
-const { createBlog } = require('../Controllers/BlogController')
+const { createBlog , UpdateBlog ,DeleteBlog } = require('../Controllers/BlogController')
+const { authentication , authorization } = require('../Middleware/Authentication')
 //__________________________ get api : for Test ___________________________________________
 routes.get('/demo' , (req , res)=> { 
     return res.status.send({ status : true , msg : " Working Properly "})
@@ -14,7 +15,11 @@ routes.post('/CreateUser' , createUser)
 routes.post('/logIn' , logInUser)
 
 //__________________________ post api : Create Blog ___________________________________________
-routes.post('/CreateBlog/:UserId' , createBlog)
+routes.post('/CreateBlog/:UserId' , authentication , createBlog)
+//__________________________ put api : Update Blog ___________________________________________
+routes.put('/UpdateBlog/:blogId/:UserId' ,authentication , authorization , UpdateBlog)
+//__________________________ Delete api : Delete by Query ___________________________________________
+routes.delete('/DeleteBlog/:blogId/:UserId' ,authentication , authorization , DeleteBlog)
 
 
 module.exports = routes

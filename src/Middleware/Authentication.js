@@ -6,20 +6,19 @@ const errorhandler = require('../ErrorHendler/errorhandler')
 
 const authentication = function (req, res, next) {
   try {
-    let token = req.headers["x-api-key"];
-    if (!token) {
+    let bearerHeader = req.headers.authorization;
+    if (typeof bearerHeader == "undefined")
       return res
         .status(400)
-        .send({ status: false, msg: "Oooh... Please Provide a Token" });
-    }
-      let decodeToken = jwt.verify(token, "Pratham");
-      if (!decodeToken) {
-        return res
-          .status(400)
-          .send({ status: false, msg: "this is an invalid token" });
-      }
-      req.token = decodeToken;
-    
+        .send({
+          status: false,
+          message: "Token is missing, please enter a token",
+        });
+
+    let bearerToken = bearerHeader.split(" ");
+    let token = bearerToken[1];
+    let decodedToken  = jwt.verify(token, "Pratham");
+    req.decodedToken = decodedToken.User
     next();
   } catch (err) {
     return errorhandler(err ,res)
@@ -30,8 +29,8 @@ const authentication = function (req, res, next) {
 
 const authorization = function (req, res, next) {
   try {
-    const UserId = req.query.UserId || req.body.UserId;
-    if (req.token.UserId != UserId) {
+    const UserId = req.params.UserId
+    if (req.decodedToken != UserId) {
       return res
         .status(400)
         .send({ status: false, msg: "You are not Valid User" });

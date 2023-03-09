@@ -10,7 +10,6 @@ const createBlog = async (req , res)=>{
   try{
     const data = req.body
     const UserId = req.params.UserId
-    console.log(UserId)
     if(UserId){
         data['UserId'] = UserId
     }
@@ -26,4 +25,81 @@ const createBlog = async (req , res)=>{
   }
 }
 
-module.exports = {createBlog }
+//______________________ PUT api : Update Blog ________________________________
+
+const UpdateBlog = async (req , res )=>{
+    try{
+        let data = req.body
+        let blogId = req.params.blogId;
+        let UserId = req.params.UserId;
+        if (!blogId) {
+            return res
+              .status(400)
+              .send({ status: false, message: "Blog Id is Mandatory" });
+          }
+        if (Object.keys(data).length == 0) {
+            return res.status(400).send({
+              status: false,
+              message: "Please Enter the Valid Key and Value to Update",
+            });
+          }
+        const deleteBlog = await BlogModel.findById(blogId)  
+        if (deleteBlog.IsDeleted == true) {
+            return res
+              .status(404)
+              .send({ status: false, msg: "Blog already Deleted" });
+          }
+          let updatedBlog = await BlogModel.findOneAndUpdate(
+            { _id: blogId },
+            {
+              $set: { ...data },
+            },
+            { new: true, upsert: true }
+          );
+          return res.status(200).send({ status: true, data: updatedBlog });   
+
+    }catch(err){
+        return errorhandler(err , res)
+    }
+}
+
+//______________________ Delete api : Delete Blog ________________________________
+ 
+const DeleteBlog = async (req , res )=> {
+    try{
+        let blogId = req.params.blogId;
+        let UserId = req.params.UserId;
+
+        let blogFound = await BlogModel.findById(blogId);
+        if (!blogFound || blogFound.IsDeleted==true ) {
+            return res.status(400).send({
+              status: false,
+              msg: "No blog exists with this Blog Id, please provide another one",
+            });
+          }
+          await BlogModel.findOneAndUpdate(
+            { _id: blogId },
+            { $set: { IsDeleted: true }},
+            { new: true }
+          );
+          return res.status(200).send({
+            status: true,
+            msg: "Your Blog has been successfully deleted",
+          });
+
+    }catch(err){
+      return errorhandler(err , res)
+    }
+}
+
+//__________________________ get api : Get Blog ___________________________________________
+
+const GetBlogs = (req,res)=>{
+    try{
+      
+    }catch(err){
+
+    }
+}
+
+module.exports = {createBlog , UpdateBlog , DeleteBlog }
