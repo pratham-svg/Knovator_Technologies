@@ -4,6 +4,7 @@ const BlogModel = require('../Models/BlogModel')
 const UserModel = require('../Models/UserModel')
 const { isValidObjectId } = require('../Validation/validation')
 const errorhandler = require('../ErrorHendler/errorhandler')
+const { findById } = require('../Models/BlogModel')
 //______________________ post api : Create Blog ________________________________
 
 const createBlog = async (req , res)=>{
@@ -94,12 +95,28 @@ const DeleteBlog = async (req , res )=> {
 
 //__________________________ get api : Get Blog ___________________________________________
 
-const GetBlogs = (req,res)=>{
+const GetBlogs = async (req,res)=>{
     try{
+        
+        const data = await BlogModel.find({ IsDeleted : false})
+        return res.status(200).send({ status : true , data : data})
       
     }catch(err){
-
+        return errorhandler(err , res)
     }
 }
 
-module.exports = {createBlog , UpdateBlog , DeleteBlog }
+const GetBlogsById = async (req , res)=> {
+    try{
+      const blogId = req.params.blogId
+      const blog = await BlogModel.findById(blogId)
+      if(blog.IsDeleted == true){
+        return res.status(400).send({ status : false , msg : "this blog is deleted"})
+      }
+      return res.status(200).send({ status : true , data : blog })
+    }catch(err){
+        return errorhandler(err , res)
+    }
+}
+
+module.exports = {createBlog , UpdateBlog , DeleteBlog , GetBlogs , GetBlogsById }

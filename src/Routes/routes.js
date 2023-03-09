@@ -2,7 +2,7 @@
 const express = require('express')
 const routes = express.Router()
 const {createUser , logInUser } = require('../Controllers/UserController')
-const { createBlog , UpdateBlog ,DeleteBlog } = require('../Controllers/BlogController')
+const { createBlog , UpdateBlog ,DeleteBlog , GetBlogs , GetBlogsById } = require('../Controllers/BlogController')
 const { authentication , authorization } = require('../Middleware/Authentication')
 //__________________________ get api : for Test ___________________________________________
 routes.get('/demo' , (req , res)=> { 
@@ -18,8 +18,12 @@ routes.post('/logIn' , logInUser)
 routes.post('/CreateBlog/:UserId' , authentication , createBlog)
 //__________________________ put api : Update Blog ___________________________________________
 routes.put('/UpdateBlog/:blogId/:UserId' ,authentication , authorization , UpdateBlog)
-//__________________________ Delete api : Delete by Query ___________________________________________
+//__________________________ Delete api : Delete Blog ___________________________________________
 routes.delete('/DeleteBlog/:blogId/:UserId' ,authentication , authorization , DeleteBlog)
+//__________________________ Get api : get All Blog ___________________________________________
+routes.get('/GetBlogs/:UserId' , authentication , GetBlogs )
+//__________________________ Get api : get Blog By Id ___________________________________________
+routes.get('/GetBlogsById/:blogId/:UserId' , authentication , authorization , GetBlogsById )
 
 
 module.exports = routes
