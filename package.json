@@ -1,0 +1,19 @@
+{
+  "name": "knovator_technologies",
+  "version": "1.0.0",
+  "description": "\"Knovator_Technologies Task\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pratham-svg/Knovator_Technologies.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pratham-svg/Knovator_Technologies/issues"
+  },
+  "homepage": "https://github.com/pratham-svg/Knovator_Technologies#readme"
+}
