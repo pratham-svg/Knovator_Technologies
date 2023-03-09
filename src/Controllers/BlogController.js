@@ -2,13 +2,18 @@
 
 const BlogModel = require('../Models/BlogModel')
 const UserModel = require('../Models/UserModel')
-const { } = require('../Validation/validation')
+const { isValidObjectId } = require('../Validation/validation')
 const errorhandler = require('../ErrorHendler/errorhandler')
 //______________________ post api : Create Blog ________________________________
 
 const createBlog = async (req , res)=>{
   try{
     const data = req.body
+    const UserId = req.params.UserId
+    console.log(UserId)
+    if(UserId){
+        data['UserId'] = UserId
+    }
     if (Object.keys(data).length == 0) {
         return res
           .status(400)

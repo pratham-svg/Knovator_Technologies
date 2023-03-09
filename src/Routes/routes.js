@@ -14,7 +14,7 @@ routes.post('/CreateUser' , createUser)
 routes.post('/logIn' , logInUser)
 
 //__________________________ post api : Create Blog ___________________________________________
-routes.post('/CreateBlog' , createBlog)
+routes.post('/CreateBlog/:UserId' , createBlog)
 
 
 module.exports = routes
