@@ -119,4 +119,14 @@ const GetBlogsById = async (req , res)=> {
     }
 }
 
-module.exports = {createBlog , UpdateBlog , DeleteBlog , GetBlogs , GetBlogsById }
+const ActiveBlogs = async (req , res)=>{
+    try{
+     const data = await BlogModel.find({ Status : true })
+     let ActiveBlogs = data.length
+     return res.status(400).send( { status : true , msg : `Total active Blogs are ${ActiveBlogs}`})
+    }catch(err){
+       return errorhandler(err , res)
+    }
+}
+
+module.exports = {createBlog , UpdateBlog , DeleteBlog , GetBlogs , GetBlogsById, ActiveBlogs }
