@@ -9,18 +9,18 @@ const UserSchema = new mongooose.Schema({
    },
    FirstName : {
     type : String,
-    require : true,
+    require : [true, "Please Enter The First Name"] , 
     trim : true
    },
    LastName : {
     type : String,
-    require : true,
+    require : [true, "Please Enter The Last Name"],
     trim : true
    },
    Email : {
     type : String,
     unique : true,
-    required : true
+    required : [true, "Please Enter The E-mail Id"],
    },
    Password : {
        type : String,

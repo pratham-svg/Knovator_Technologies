@@ -4,6 +4,7 @@ const UserModel = require('../Models/UserModel')
 const jwt = require("jsonwebtoken");
 const errorHandle = require('../ErrorHendler/errorhandler')
 const { isValidName , isValidEmail , isValidPassword  } = require('../Validation/validation')
+
 //______________________ post api : Create User ________________________________
 
 const createUser = async (req ,res)=>{
@@ -20,8 +21,8 @@ const createUser = async (req ,res)=>{
       return errorHandle(err, res)
     }
 }
-//______________________ post api : Login User ________________________________
 
+//______________________ post api : Login User ________________________________
 
 const logInUser = async (req, res)=> {
     try {
@@ -48,12 +49,11 @@ const logInUser = async (req, res)=> {
         { User: User._id.toString() },
         "Pratham"
       );
-      res.setHeader("token", token);
       return res.status(200).send({ status: true,
         message: "User login successfull",
       data : { userId: User._id, token: token },});
     } catch (err) {
-      return res.status(500).send({ status: false, err: err.message });
+      return errorHandle(err, res)
     }
   };
 

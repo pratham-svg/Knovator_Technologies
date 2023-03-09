@@ -1,10 +1,8 @@
 //______________________ Import or Require Modules ________________________________
 
 const BlogModel = require('../Models/BlogModel')
-const UserModel = require('../Models/UserModel')
 const { isValidObjectId } = require('../Validation/validation')
 const errorhandler = require('../ErrorHendler/errorhandler')
-const { findById } = require('../Models/BlogModel')
 //______________________ post api : Create Blog ________________________________
 
 const createBlog = async (req , res)=>{
@@ -32,7 +30,6 @@ const UpdateBlog = async (req , res )=>{
     try{
         let data = req.body
         let blogId = req.params.blogId;
-        let UserId = req.params.UserId;
         if (!blogId) {
             return res
               .status(400)
@@ -69,7 +66,7 @@ const UpdateBlog = async (req , res )=>{
 const DeleteBlog = async (req , res )=> {
     try{
         let blogId = req.params.blogId;
-        let UserId = req.params.UserId;
+
 
         let blogFound = await BlogModel.findById(blogId);
         if (!blogFound || blogFound.IsDeleted==true ) {
@@ -106,6 +103,8 @@ const GetBlogs = async (req,res)=>{
     }
 }
 
+//__________________________ get api : Get By Id ___________________________________________
+
 const GetBlogsById = async (req , res)=> {
     try{
       const blogId = req.params.blogId
@@ -118,6 +117,8 @@ const GetBlogsById = async (req , res)=> {
         return errorhandler(err , res)
     }
 }
+
+//__________________________ get api : Find Active Blogs  ___________________________________________
 
 const ActiveBlogs = async (req , res)=>{
     try{
