@@ -4,8 +4,9 @@ const express = require("express");
 const route=require('./routes/routes')
 const mongoose = require("mongoose");
 const app = express();
-const port = process.env.port || 3000;
-const url = 'mongodb+srv://Pratham_Panchariya:shree79766@cluster0.yd3rrae.mongodb.net/knovator_technologies'
+require("dotenv").config();
+const port = process.env.port || 11000;
+const url = process.env.MONGODB
 const multer = require('multer')
 app.use(express.json());
 app.use(multer().any())
