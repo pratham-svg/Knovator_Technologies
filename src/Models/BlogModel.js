@@ -25,9 +25,17 @@ const blogSchema = new mongoose.Schema({
         type : Boolean,
         default : false
     },
+    CreatedBy : {
+        type : String,
+        required : [true, "Please provide the Name Of Created"]
+    },
     IsDeleted : {
         type : Boolean,
         default : false
+    },
+    Address : {
+        type : String,
+        required : [true, "Please provide Address"]
     }
 } ,{ timestamps: true });
 

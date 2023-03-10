@@ -3,6 +3,7 @@
 const BlogModel = require('../Models/BlogModel')
 const { isValidObjectId } = require('../Validation/validation')
 const errorhandler = require('../ErrorHendler/errorhandler')
+const UserModel = require('../Models/UserModel') 
 //______________________ post api : Create Blog ________________________________
 
 const createBlog = async (req , res)=>{
@@ -11,7 +12,9 @@ const createBlog = async (req , res)=>{
     const UserId = req.params.UserId
     if(UserId){
         data['UserId'] = UserId
-    }
+    } 
+    const User = await UserModel.findOne({ _id : UserId })
+    data['CreatedBy'] = User.FirstName + " " + User.LastName
     if (Object.keys(data).length == 0) {
         return res
           .status(400)
